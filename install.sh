@@ -50,7 +50,7 @@ cp -r nvim ~/.config
 cp -r starship.toml ~/.config
 cp .zshrc ~
 cp .vimrc ~
-cp -r ~/.oh-my-zsh
+cp -r .oh-my-zsh ~
 echo "DONE"
 
 echo "Installation finished!"
