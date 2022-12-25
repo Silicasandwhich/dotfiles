@@ -30,10 +30,16 @@ else
 	fi
 fi
 
+
 echo "installing starship..."
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/LiberationMono.zip
+unzip -qd font LiberationMono.zip.1
+cp font/* ~/.fonts
+fc-cache -vf
+
 curl -sS https://starship.rs/install.sh | sh
 
-echo -n "setting user shell to zsh..."
+echo "setting user shell to zsh..."
 chsh --shell /bin/zsh $USER
 echo "DONE"
 
