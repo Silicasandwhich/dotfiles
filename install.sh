@@ -1,10 +1,11 @@
+#!/usr/bin/env bash
 echo "+---------------------------------------+"
 echo "| SILICASANDWHICH'S LINUX CONFIGURATION |"
 echo "+---------------------------------------+"
 
 echo -n "install config files? (Y/n)"
 read answer
-lowerAnswer=${answer,}
+lowerAnswer=${answer,,}
 if [ ${lowerAnswer:0:1} = 'n' ]; then
 	echo "exiting..."
 	exit 0
@@ -34,7 +35,7 @@ fi
 echo "installing starship..."
 wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/LiberationMono.zip
 unzip -qd font LiberationMono.zip.1
-cp font/* ~/.fonts
+sudo cp font/* /usr/share/fonts
 fc-cache -vf
 
 curl -sS https://starship.rs/install.sh | sh
