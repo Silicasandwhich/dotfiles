@@ -40,6 +40,10 @@ fc-cache -vf
 
 curl -sS https://starship.rs/install.sh | sh
 
+echo "setting up oh-my-zsh..."
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo "DONE"
+
 echo "setting user shell to zsh..."
 chsh --shell /bin/zsh $USER
 echo "DONE"
@@ -50,7 +54,7 @@ cp -r nvim ~/.config
 cp -r starship.toml ~/.config
 cp .zshrc ~
 cp .vimrc ~
-cp -r .oh-my-zsh ~
+cp -r oh-my-zsh/* ~/.oh-my-zsh/custom/
 echo "DONE"
 
 echo "Installation finished!"
