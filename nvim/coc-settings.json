@@ -1,0 +1,9 @@
+
+{
+	"rust-analyzer.enable": true,
+	"rust-analyzer.completion.autoimport.enable": true,
+	"rust-analyzer.completion.autoself.enable": true,
+	"rust-analyzer.completion.privateEditable.enable": true,
+	"rust-analyzer.completion.callable.snippets": "fill_arguments",
+	"rust-analyzer.completion.postfix.enable": true
+}
