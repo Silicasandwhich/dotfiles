@@ -34,7 +34,7 @@ fi
 
 echo "installing starship..."
 wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/LiberationMono.zip
-unzip -qd font LiberationMono.zip.2
+unzip -qd font LiberationMono.zip
 sudo cp font/* /usr/share/fonts
 fc-cache -vf
 
