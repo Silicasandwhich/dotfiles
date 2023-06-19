@@ -11,10 +11,12 @@ Plug 'mhinz/vim-startify'
 Plug 'bagrat/vim-buffet'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'godlygeek/tabular'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
+
 
 Plug 'rust-lang/rust.vim'
 Plug 'cespare/vim-toml'
@@ -30,6 +32,10 @@ Plug 'LukeSmithxyz/vimling'
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-commentary'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin'}
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'nvim-tree/nvim-web-devicons'
 call plug#end()
 
 set go=a
@@ -43,7 +49,8 @@ set clipboard+=unnamedplus
 	set nocompatible
 	filetype plugin on
 	set bg=dark
-	colorscheme catppuccin-mocha
+" color scheme:
+    colorscheme catppuccin-mocha
 	syntax on
 	set encoding=utf-8
 	set number relativenumber
@@ -77,7 +84,7 @@ set clipboard+=unnamedplus
 	map <C-l> <C-w>l
 
 
-" Replace all is aliased to S.
+" Replace all is aliased to S
 	nnoremap S :%s//g<Left><Left>
 
 " Open corresponding .pdf/.html or preview
@@ -149,8 +156,13 @@ let g:NERDTreeDirArrowCollapsible = ''
 
 
 " let g:airline_powerline_fonts = 1
+
+
 let g:lightline = {
-  \ 'colorscheme': 'dracula'
+  \ 'colorscheme': 'dracula',
+  \ 'enable': {
+      \   'tabline': 0
+      \ },
 \}
 
 set termguicolors
@@ -165,12 +177,63 @@ set noshowmode
 let g:buffet_powerline_separators = 1
 nmap <leader>t :TagbarToggle<CR>
 
-nnoremap <Tab> :tabnext<CR>
-nnoremap <S-Tab> :tabp<CR>
-
 set tabstop=4
 set softtabstop=0
 set shiftwidth=0
 set expandtab
 
+" nerdtree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | wincmd p | endif
+autocmd VimEnter * if argc() == 1 && !isdirectory(argv()[0]) && !exists('s:std_in') |
+            \ execute 'NERDTreeVCS' argv()[0] | wincmd p | endif
+nnoremap <C-n> :NERDTreeFocus<CR>
+
+
+" cock
+nnoremap <leader>e :CocDiagnostics<CR>
+nnoremap <leader>E :CocList diagnostics<CR>
+	  nnoremap <silent><nowait><expr> <C-h> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-h>"
+	  nnoremap <silent><nowait><expr> <C-l> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-l>"
+	  inoremap <silent><nowait><expr> <C-h> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+	  inoremap <silent><nowait><expr> <C-l> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+	  vnoremap <silent><nowait><expr> <C-h> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-h>"
+	  vnoremap <silent><nowait><expr> <C-l> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-l>"
+
+	  nnoremap <silent><nowait><expr> <C-j> coc#pum#visible() ? coc#pum#next(0) : "\<C-j>"
+	  nnoremap <silent><nowait><expr> <C-k> coc#pum#visible() ? coc#pum#prev(0) : "\<C-k>"
+	  inoremap <silent><nowait><expr> <C-j> coc#pum#visible() ? "\<c-r>=coc#pum#next(0)\<cr>" : "\<Right>"
+	  inoremap <silent><nowait><expr> <C-k> coc#pum#visible() ? "\<c-r>=coc#pum#prev(0)\<cr>" : "\<Left>"
+	  vnoremap <silent><nowait><expr> <C-j> coc#pum#visible() ? coc#pum#next(0) : "\<C-j>"
+	  vnoremap <silent><nowait><expr> <C-k> coc#pum#visible() ? coc#pum#prev(0) : "\<C-k>"
+" disable page up and down
+nnoremap <PAGEUP> <nop>
+nnoremap <PAGEDOWN> <nop>
+inoremap <PAGEUP> <nop>
+inoremap <PAGEDOWN> <nop>
+vnoremap <PAGEUP> <nop>
+vnoremap <PAGEDOWN> <nop>
+
+
+" buffet
+noremap <Tab> :bn<CR>
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
+noremap <C-t> :tabnew split<CR>
+noremap <C-Tab> :tabnext<CR>
+noremap <C-S-Tab> :tabp<CR>
+
+let g:buffet_tab_icon = "<>"
+
+" transparent background
 highlight Normal guibg=none
+
+" buffet 2
+function! g:BuffetSetCustomColors()
+  hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#60647f guifg=#F8F8F2
+  hi! BuffetTab cterm=NONE ctermbg=5 ctermfg=8 guibg=#BD93F9 guifg=#000000
+hi! BuffetBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#44475A guifg=#F8F8F2
+hi! BuffetActiveBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#44475A guifg=#F8F8F2
+endfunction
