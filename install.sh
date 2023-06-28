@@ -49,13 +49,23 @@ chsh --shell /bin/zsh $USER
 echo "DONE"
 
 echo -n "moving config files..."
+mkdir .config
 cp -r .vim ~
 cp -r nvim ~/.config
 cp -r starship.toml ~/.config
 cp .zshrc ~
 cp .vimrc ~
 cp -r oh-my-zsh/* ~/.oh-my-zsh/custom/
+cp -r lvim ~/.config/
 echo "DONE"
+
+echo -n "install lvim? (Y/n)"
+read answer
+lowerAnswer=${answer,,}
+if [ ${lowerAnswer:0:1} != 'n' ]; then
+    bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+fi
+
 
 echo "Installation finished!"
 
